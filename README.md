@@ -16,3 +16,9 @@ As a developer, I want to create an event driven system so that I can write code
 Did a lot of good work, but because I didn't do test driven development I had to go back and alter a bunch of stuff to get to passing, but I am passing so I'll take it! 
 
 Not sure if the testing for the last one was right, but I guess we'll have to figure that out tomorrow.
+
+# day2 notes from demo:
+net vs. express: HTTP is based on request reponse (ie. if I want to say something to Chen, I have to wait for chen to send me a request (call me) so I can tell him what I wanted to tell him)
+net allows you to just say what you want, put it out there, and let who cares pay attention.
+
+to trigger server.js (demo) we need to go to a different app and get a new net.Socket();

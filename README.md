@@ -22,3 +22,6 @@ net vs. express: HTTP is based on request reponse (ie. if I want to say somethin
 net allows you to just say what you want, put it out there, and let who cares pay attention.
 
 to trigger server.js (demo) we need to go to a different app and get a new net.Socket();
+
+# day2 changes
+started fresh today by making three folders with all new files inside, but I carried over a lot of the ideas from yesterday. 

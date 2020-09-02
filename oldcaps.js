@@ -1,8 +1,21 @@
 // main hub of application
 const events = require('./events');
 
-require('./modules/driver');
-require('./modules/vendor');
+require('./modules/olddriver');
+require('./modules/oldvendor');
+
+// // class code example
+// events.on('pickup', eventHandler('pickup'));
+// events.on('in-transit', eventHandler('in-transit'));
+// events.on('delivered', eventHandler('delivered'))
+// function eventHandler(eventName){
+//     return payload =>{
+//         const time = new Date();
+//         console.log('EVENT', {event: eventName, time, payload})
+//     }
+// }
+
+
 // events.on('pickup', onPickup);
 events.on('pickup', payload =>{
     logEvent('pickup', payload);
@@ -18,6 +31,8 @@ function logEvent(event, payload){
  let time = new Date();
  console.log('EVENT', {event, payload})
 }
+
+
 
 /*
 EVENT { event: 'pickup',

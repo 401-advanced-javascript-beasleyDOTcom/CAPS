@@ -25,3 +25,14 @@ to trigger server.js (demo) we need to go to a different app and get a new net.S
 
 # day2 changes
 started fresh today by making three folders with all new files inside, but I carried over a lot of the ideas from yesterday. 
+
+# day3
+Today I implemented Socket.IO
+I experienced a lot of problems that I couldn't make any sense of. I kept getting an error 
+Error: listen EADDRINUSE: address already in use :::3003
+For instance, I passed in (event, string) as arguments to a function and then used it as {event, string} in an object. When I changed the name of the argument to payload, and the key/value to payload it threw that error about address already in use and that just doesn't make any sense to me. 
+
+Got help from Tia and Daisy and was able to get this working right but not without a lot of frustration along the way. 
+
+# day4
+Today I added some extra functionality in order to better support scenarios in which the client loses connection with the server. For example, if a driver loses connection to the server, we wouldn't want the request for pickup to go unnoticed. So we made it so that unless a driver acknowledges receipt of a pickup request it gets added to the queue. Whenever a driver connects with the server it makes a request for everything in the queue. 

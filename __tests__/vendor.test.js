@@ -1,4 +1,4 @@
-const vendor = require('../modules/vendor.js');
+const vendor = require('../vendor/vendor');
 const emitter = require('../events.js');
 
 jest.useFakeTimers();

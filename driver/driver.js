@@ -1,68 +1,40 @@
 /*
-Connect to the CAPS server
-Listen for the data event coming in from the CAPS server
-When data arrives, parse it (it should be JSON) and look for the event property and begin processing…
-If the event is called pickup
+Connects to the CAPS server as a socket.io client to the caps namespace
+Listen for the pickup event coming in from the CAPS server
 Simulate picking up the package
-Wait 1 second
-Log “picking up id” to the console
-Create a message object with the following keys:
-event - ‘in-transit’
-payload - the payload from the data object you just received
-Write that message (as a string) to the CAPS server
+Wait 1.5 seconds
+Log “picking up payload.id” to the console
+emit an in-transit event to the CAPS server with the payload
 Simulate delivering the package
 Wait 3 seconds
-Create a message object with the following keys:
-event - ‘delivered’
-payload - the payload from the data object you just received
-Write that message (as a string) to the CAPS server
+emit a delivered event to the CAPS server with the payload
+When running, the vendor and driver consoles should show their own logs. Additionally, the CAPS server should be logging everything. Your console output should look something like this:
 */
 
 require('dotenv').config();
-const net = require('net');
-const socket = new net.Socket();
-const port = process.env.PORT || 3009;
-const host = process.env.HOST || 'localYost';
+const io = require('socket.io-client');
+const { Socket } = require('socket.io-client');
 
-//connect
-socket.connect({ port: port, host: host}, () =>{
-    console.log('Connected to the server on', host,':', port)
-})
+const capsChannel = io.connect('http://localhost:3003/caps');
+capsChannel.emit('getall');
 
-socket.on('data', buffer =>{
-    let raw = buffer.toString();
-    let object = JSON.parse(raw);
-    if(object.event==='pickup'){
-        simulatePickup(object);
-    }
+capsChannel.on('pickup', buffer =>{
+    simulatePickup(buffer);
+    capsChannel.emit('received', buffer.orderID);
 });
-
 function simulatePickup(object){
     setTimeout(()=>{
-        let newObject = {
-            event: 'in-transit',
-            payload: object.payload,
-        };
-        console.log('picking up ', newObject.payload.orderID)
-        let stringVersion = JSON.stringify(newObject);
-        socket.write(stringVersion);
+        console.log('picking up ', object.orderID)
+      
+        capsChannel.emit('in-transit', object);
         simulateDelivery(object);
-    }, 1000);
+    }, 1500);
+}
 
     function simulateDelivery(object){
         setTimeout(()=>{
-            let message = {
-                event: 'delivered',
-                payload: object.payload,
-            };
-            let stringVersion = JSON.stringify(message);
-            socket.write(stringVersion);
+            capsChannel.emit('delivered', object);
+            console.log('delivering order', object.orderID);
         }, 3000)
     }
-}
-/*
-Create a message object with the following keys:
-event - ‘delivered’
-payload - the payload from the data object you just received
-Write that message (as a string) to the CAPS server
-*/
+

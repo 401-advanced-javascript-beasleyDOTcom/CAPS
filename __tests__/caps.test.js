@@ -1,7 +1,7 @@
 jest.useFakeTimers();
 const emitter = require('../events.js');
 
-require('../caps.js');
+require('../capsHub/caps.js');
 
 const delivery = {
     store: '1800 no mo',
